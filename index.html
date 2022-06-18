@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Nether Portal Calculator</title>
+    <script>
+      // Defer initialization when page is loaded
+      let $x, $z, $outDimension, $outX, $outZ;
+      let dimension = "overworld";
+      let inX, inZ;
+      
+      window.onload = ready;
+      function ready() {
+          $x = document.getElementById("x");
+          $z = document.getElementById("z");
+          $outDimension = document.getElementById("outDimension");
+          $outX = document.getElementById("outX");
+          $outZ = document.getElementById("outZ");
+      }
+      
+      function update() {
+          if (dimension === "overworld") {
+              $outDimension.innerHTML = "nether";
+              $outX.value = inX ? Math.round(inX / 8) : '';
+              $outZ.value = inZ ? Math.round(inZ / 8) : '';
+          } else if (dimension === "nether") {
+              $outDimension.innerHTML = "overworld";
+              $outX.value = inX ? Math.round(inX * 8) : '';
+              $outZ.value = inZ ? Math.round(inZ * 8) : '';
+          } else {
+              alert("Error: dimension is not `overworld` or `nether`");
+          }
+      }
+    </script>
+  </head>
+  
+  <body>
+    <form>
+      <!-- Select Dimension -->
+      <input type="radio" id="inOverworld" name="selectDimension" oninput="dimension = 'overworld'; update();" checked/>
+      <label for="inOverworld">I am in the <b>overworld</b></label>
+      <br/>
+      <input type="radio" id="inNether" name="selectDimension" oninput="dimension = 'nether'; update();"/>
+      <label for="inNether">I am in the <b>nether</b></label>
+      <br/><br/>
+      
+      <!-- Enter Coordinates -->
+      <label for="inputCoordinates">My coordinates are:<br/>XYZ: </label>
+      <input type="number" id="x" name="inputCoordinates" oninput="inX = $x.value ? parseInt($x.value) : NaN; update();"/>
+      <span> / </span>
+      <input type="text" id="y" name="inputCoordinates" value="Not needed" disabled/>
+      <span> / </span>
+      <input type="number" id="z" name="inputCoordinates" oninput="inZ = $z.value ? parseInt($z.value) : NaN; update();"/>
+      <br/><br/>
+      
+      <!-- Output -->
+      <label for="outputCoordinates">Your nether portal, <b>in the <span id="outDimension">nether</span></b>, should go at:<br/>XYZ: </label>
+      <input type="number" id="outX" name="outputCoordinates"/>
+      <span> / </span>
+      <input type="text" id="outY" name="outputCoordinates" value="Not needed" disabled/>
+      <span> / </span>
+      <input type="number" id="outZ" name="outputCoordinates"/>
+      <br/><br/>
+      
+      <!-- Useless Update button
+      <input type="button" value="Update!" onclick="update();"/>
+      <br/><br/>
+      -->
+    </form>
+  </body>
+</html>
